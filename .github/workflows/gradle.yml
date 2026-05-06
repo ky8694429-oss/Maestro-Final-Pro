@@ -1,4 +1,4 @@
-name: Maestro Final Build
+name: Maestro Final Force Build
 
 on:
   workflow_dispatch:
@@ -17,10 +17,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Force Init Gradle
+      - name: Fix Missing Files
         run: |
+          if [ ! -f "settings.gradle" ]; then echo "include ':app'" > settings.gradle; fi
           gradle wrapper
-          chmod +x gradlew
 
       - name: Build APK
         run: ./gradlew assembleDebug --stacktrace
@@ -28,5 +28,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Maestro-Final-Pro
+          name: Maestro-Final-APK
           path: app/build/outputs/apk/debug/*.apk
